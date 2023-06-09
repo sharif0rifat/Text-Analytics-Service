@@ -1,6 +1,6 @@
 ﻿namespace TextAnalyticsService.ViewModels
 {
-    public class TextInput
+    public struct TextInput
     {
         public string Text { get; set; }
     }

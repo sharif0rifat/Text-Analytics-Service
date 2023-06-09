@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 //dependency injection
-builder.Services.AddScoped<ITextAnalyzer, TextAnalyzer>();
-builder.Services.AddScoped<ISimilarityCalculator, SimilarityCalculator>();
+builder.Services.AddScoped<ITextAnalyzerService, TextAnalyzerService>();
+builder.Services.AddScoped<ISimilarityCalculatorService, SimilarityCalculatorService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
