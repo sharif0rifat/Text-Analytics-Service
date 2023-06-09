@@ -11,10 +11,16 @@ namespace TextAnalyticsService.Controllers
         {
         }
 
-        [HttpGet(Name = "GetTextAnalyzer")]
-        public IActionResult Get()
+        [HttpPost("analyze")]
+        public IActionResult Analyze(string textToAnalyze)
         {
-            return Ok("This Is just");
+            return Ok(textToAnalyze);
+        }
+
+        [HttpPost("similarities")]
+        public IActionResult GetSimilarities(string textToAnalyze)
+        {
+            return Ok(textToAnalyze);
         }
     }
 }
