@@ -20,15 +20,21 @@ namespace TextAnalyticsService.Controllers
         [HttpPost("analyze")]
         public IActionResult Analyze(string textToAnalyze)
         {
-            var result= _textAnalyzerService.Analyze(textToAnalyze);
-            return Ok(result);
+            var result = _textAnalyzerService.Analyze(textToAnalyze);
+            if (result.IsSuccess)
+                return Ok(result.Result);
+            else
+                return BadRequest(result.Message);
         }
 
         [HttpPost("similarities")]
         public IActionResult GetSimilarities(string textToAnalyze)
         {
-            var result= _similarityCalculatorService.GetTextSimilarity(textToAnalyze);
-            return Ok(result);
+            var result = _similarityCalculatorService.GetTextSimilarity(textToAnalyze);
+            if (result.IsSuccess)
+                return Ok(result.Result);
+            else
+                return BadRequest(result.Message);
         }
     }
 }

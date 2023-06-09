@@ -1,9 +1,10 @@
-﻿using TextAnalyticsService.ViewModels;
+﻿using TextAnalyticsService.Helper;
+using TextAnalyticsService.ViewModels;
 
 namespace TextAnalyticsService.TextAnalyzerService.Interfaces
 {
     public interface ISimilarityCalculatorService
     {
-        TextSimilarityResult GetTextSimilarity(string textInput);
+        ResponseResult GetTextSimilarity(string textInput);
     }
 }

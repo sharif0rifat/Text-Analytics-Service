@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Linq;
+using TextAnalyticsService.Helper;
 using TextAnalyticsService.TextAnalyzerService.Interfaces;
 using TextAnalyticsService.ViewModels;
 
@@ -14,20 +15,29 @@ namespace TextAnalyticsService.TextAnalyzerService.Implementations
             puntuations = new char[] { ',', '.', '?', '!', '\'', '/', ':', '*' };
             whiteSpace = new char[] { '\n', '\r', ' ' };
         }
-        public TextAnalyzeResult Analyze(string text)
+        public ResponseResult Analyze(string text)
         {
-            TextInput input = JsonConvert.DeserializeObject<TextInput>(text);
-            TextAnalyzeResult result = new TextAnalyzeResult();
-            result.CharCount = input.Text.Where(i => !puntuations.Any(x=>x==i) && !whiteSpace.Any(x => x == i)).Count();      //Ass Puntuation and character are not counted
-            result.WordCount = input.Text.Split(' ').Count();
-            result.SentenceCount = input.Text.Split('.').Count();
-            result.MostFrequentWord = GetMostFrequentWord(input.Text);
-            result.LongestWord = GetLonestWord(input.Text);
-            
-            return result;
+            try
+            {
+                if (!JsonValidator.ValidateJson<TextInput>(text))
+                    return ResponseResult.Fail("The Text is not valid");
+                TextInput input = JsonConvert.DeserializeObject<TextInput>(text);
+                TextAnalyzeResult result = new TextAnalyzeResult();
+                result.CharCount = input.Text.Where(i => !puntuations.Any(x => x == i) && !whiteSpace.Any(x => x == i)).Count();      //Ass Puntuation and character are not counted
+                result.WordCount = input.Text.Split(' ').Count();
+                result.SentenceCount = input.Text.Split('.').Count();
+                result.MostFrequentWord = GetMostFrequentWord(input.Text);
+                result.LongestWord = GetLongestWord(input.Text);
+
+                return  ResponseResult.Successs("Text Analyzed",result);
+            }
+            catch (Exception ex)
+            {
+                return ResponseResult.Fail("Some error happened while analyzing text");
+            }
         }
 
-        private LongestWord GetLonestWord(string text)
+        private LongestWord GetLongestWord(string text)
         {
             string temp = text.ToLower();
             //As punctuation are not counted as characters, we need to remove them from string
