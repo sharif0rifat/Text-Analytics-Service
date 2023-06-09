@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using TextAnalyticsService.TextAnalyzerService.Interfaces;
 using TextAnalyticsService.ViewModels;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TextAnalyticsService.TextAnalyzerService.Implementations
 {
@@ -10,21 +9,21 @@ namespace TextAnalyticsService.TextAnalyzerService.Implementations
         public TextSimilarityResult GetTextSimilarity(string textInput)
         {
             TextInputMultiple input = JsonConvert.DeserializeObject<TextInputMultiple>(textInput);
-            double similarity1 = GetSimilarityPercent(input.Text1, input.Text2);
-            double similarity2 = GetSimilarityPercent(input.Text1, input.Text2);
+            float similarity1 = GetSimilarityPercent(input.Text1, input.Text2);
+            float similarity2 = GetSimilarityPercent(input.Text2, input.Text1);
 
             return new TextSimilarityResult
             {
-                Similarity = (similarity1 + similarity2) / 2,
+                Similarity = ((float)(similarity1 + similarity2) / 2).ToString("0.00"),
             };
         }
 
-        private double GetSimilarityPercent(string text1, string text2)
+        private float GetSimilarityPercent(string text1, string text2)
         {
             var words1 = text1.Split(' ');
             var words2 = text2.Split(' ');
             var similar = words1.Where(i => words2.Any(x => x == i)).Count();
-            return similar / words1.Length * 100;
+            return (float)(similar*100) / words1.Length;
         }
     }
 }

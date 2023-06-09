@@ -2,6 +2,6 @@
 {
     public struct TextSimilarityResult
     {
-        public double Similarity { get; set; }
+        public string Similarity { get; set; }
     }
 }
