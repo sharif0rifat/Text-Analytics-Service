@@ -1,3 +1,5 @@
 TextAnalyticsService/.vs/
 TextAnalyticsService/bin/
 TextAnalyticsService/obj/
+/TextAnalyticsService.Test/bin/Debug/net6.0
+/TextAnalyticsService.Test/obj

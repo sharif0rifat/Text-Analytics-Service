@@ -8,15 +8,17 @@ namespace TextAnalyticsService.TextAnalyzerService.Implementations
     public class TextAnalyzerService : ITextAnalyzerService
     {
         private readonly char[] puntuations;
+        private readonly char[] whiteSpace;
 
         public TextAnalyzerService() {
             puntuations = new char[] { ',', '.', '?', '!', '\'', '/', ':', '*' };
+            whiteSpace = new char[] { '\n', '\r', ' ' };
         }
         public TextAnalyzeResult Analyze(string text)
         {
             TextInput input = JsonConvert.DeserializeObject<TextInput>(text);
             TextAnalyzeResult result = new TextAnalyzeResult();
-            result.CharCount = input.Text.Where(i => !puntuations.Any(x=>x==i) && i!=' ').Count();      //Ass Puntuation and character are not counted
+            result.CharCount = input.Text.Where(i => !puntuations.Any(x=>x==i) && !whiteSpace.Any(x => x == i)).Count();      //Ass Puntuation and character are not counted
             result.WordCount = input.Text.Split(' ').Count();
             result.SentenceCount = input.Text.Split('.').Count();
             result.MostFrequentWord = GetMostFrequentWord(input.Text);
