@@ -11,9 +11,13 @@ namespace TextAnalyticsService.TextAnalyzerService.Implementations
         {
             try
             {
+                if(string.IsNullOrEmpty(textInput))
+                    return ResponseResult.Fail("The input is empty");
                 if (!JsonValidator.ValidateJson<TextInputMultiple>(textInput))
                     return ResponseResult.Fail("The Text is not valid");
                 TextInputMultiple input = JsonConvert.DeserializeObject<TextInputMultiple>(textInput);
+                if (string.IsNullOrEmpty(input.Text1) || string.IsNullOrEmpty(input.Text2))
+                    return ResponseResult.Fail("One of the text is empty");
                 float similarity1 = GetSimilarityPercent(input.Text1, input.Text2);
                 float similarity2 = GetSimilarityPercent(input.Text2, input.Text1);
                 return ResponseResult.Successs("Similarity found",

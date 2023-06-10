@@ -19,9 +19,13 @@ namespace TextAnalyticsService.TextAnalyzerService.Implementations
         {
             try
             {
+                if (string.IsNullOrEmpty(text))
+                    return ResponseResult.Fail("The input is empty");
                 if (!JsonValidator.ValidateJson<TextInput>(text))
                     return ResponseResult.Fail("The Text is not valid");
                 TextInput input = JsonConvert.DeserializeObject<TextInput>(text);
+                if (string.IsNullOrEmpty(input.Text))
+                    return ResponseResult.Fail("The text is Empty");
                 TextAnalyzeResult result = new TextAnalyzeResult();
                 result.CharCount = input.Text.Where(i => !puntuations.Any(x => x == i) && !whiteSpace.Any(x => x == i)).Count();      //Ass Puntuation and character are not counted
                 result.WordCount = input.Text.Split(' ').Count();
