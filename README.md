@@ -25,8 +25,7 @@ for the first API you try with following example
 
 ```http
   {
-    "text": "The quick brown fox jumps over the lazy dog. The dog was
-    not amused."
+    "text": "The quick brown fox jumps over the lazy dog. The dog was not amused."
   }
 ```
 
